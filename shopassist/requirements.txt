@@ -1,0 +1,6 @@
+anthropic>=1.12
+python-dotenv
+fastapi
+uvicorn
+mcp>=2.3
+claude-agent-sdk

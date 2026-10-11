@@ -1,0 +1,139 @@
+SHOPASSIST SUPPORT HANDBOOK
+
+RETURNS - RETURN WINDOW
+Items can be returned within 30 days of the delivery date shown on the order. The delivery date is the date the carrier recorded the delivery, not the date of the purchase. Items delivered more than 30 days ago can no longer be returned under the standard policy, but a customer may ask a human agent to review a late return when there is a documented reason, such as a hospital stay or a carrier error.
+
+RETURNS - CONDITION OF RETURNED ITEMS
+Returned items must be unused, unwashed and in their original packaging, with all tags attached. Shoes must be returned in the original shoe box, and the shoe box must be placed inside a shipping box. Items that show signs of wear, stains, odours or alterations are not accepted and are sent back to the customer at the store's expense the first time and at the customer's expense the second time.
+
+RETURNS - ITEMS THAT CANNOT BE RETURNED
+The following items cannot be returned for hygiene or legal reasons: underwear, swimwear with the hygiene strip removed, earrings, opened cosmetics, gift cards, downloadable products and personalised items such as engraved jewellery or printed shirts. Sale items marked final sale cannot be returned either, and the final sale label is shown on the product page and on the receipt.
+
+RETURNS - HOW TO START A RETURN
+A customer starts a return from the order page by selecting the item and a reason. The store then emails a prepaid return label within one hour. The customer prints the label, attaches it to the parcel and drops the parcel at any partner carrier point. The return is registered when the carrier scans the parcel, and the customer receives a confirmation email with a return number that starts with RET.
+
+RETURNS - REFUND METHOD AND TIMING
+Refunds go back to the original payment method. Card refunds appear within 5 to 10 business days after the warehouse has inspected the item. Refunds to store credit appear within one business day. Gift card payments are refunded to a new gift card. The original shipping cost is refunded only when the return is caused by a store error, such as a wrong or damaged item.
+
+RETURNS - DAMAGED OR WRONG ITEMS
+When an item arrives damaged or the wrong item was delivered, the customer reports it within 7 days of the delivery with a photo of the item and of the parcel. The store sends a replacement at no cost or refunds the order, whichever the customer prefers. The damaged item does not need to be returned unless the store asks for it, which happens for items above 200 in value.
+
+RETURNS - EXCHANGES
+Exchanges are handled as a return plus a new order. The customer returns the original item and places a new order for the wanted size or colour. When the new order is placed before the return is registered, the store holds the price of the original order, so the customer never pays a higher price for the same item.
+
+RETURNS - INTERNATIONAL RETURNS
+Customers outside the store's home country receive a return label at a reduced rate, and the cost of the label is deducted from the refund unless the return is caused by a store error. Customs duties paid on the original delivery are not refunded by the store, but the customer may claim them back from the customs authority with the return confirmation.
+
+RETURNS - REFUND LIMITS FOR AUTOMATIC PROCESSING
+Refunds up to 100 in value are processed automatically by the support assistant once eligibility is confirmed. Refunds above 100 require a human agent, who verifies the order, the payment and the return status before approving. The assistant never promises a refund amount above the automatic limit; it opens a ticket and tells the customer that a human will confirm.
+
+RETURNS - CUSTOMER VERIFICATION
+Before any order detail or refund is discussed, the customer is verified by the email address on the order and the order number. The assistant never reads order details to a customer who cannot provide both, and it never sends order details to a third party, including a family member, without the account holder's consent.
+
+RETURNS - PARTIAL RETURNS
+A customer may return some items of an order and keep the rest. The refund covers the returned items only. When a promotion required a minimum order value and the kept items fall below that value, the promotion discount is deducted from the refund, and the order confirmation shows the discount that applies.
+
+RETURNS - LOST RETURN PARCELS
+When a return parcel is scanned by the carrier but never arrives at the warehouse, the store treats the return as received 14 days after the scan and refunds the customer. When the parcel was never scanned, the customer contacts the carrier point where it was dropped and sends the drop-off receipt to the store, which then refunds the customer.
+
+RETURNS - RETURNS OF GIFTS
+A person who received an item as a gift may return it with the gift receipt or the order number. The refund goes to store credit in the name of the person returning the item, never to the buyer's card, so that the buyer is not informed of the return. Gift receipts are valid for 60 days from the delivery date.
+
+RETURNS - WARRANTY CLAIMS
+Faults that appear after the 30-day window are handled as warranty claims, not returns. The customer describes the fault, sends photos and receives a repair, a replacement or a refund depending on the item. Warranty claims are reviewed by a human agent within 3 business days, and the assistant only collects the information and opens the claim.
+
+RETURNS - REPEATED RETURNS
+Customers who return more than 80 percent of their orders over 12 months are flagged for review. The assistant never mentions the flag to the customer. A human agent reviews the account and may limit the return label service to paid labels, and the customer is informed by email before any limit applies.
+
+RETURNS - CONTACT AND ESCALATION
+When the policy does not answer a question, or the customer asks for an exception, the assistant opens a ticket for a human agent and tells the customer that an agent will reply within one business day. The assistant never invents a rule and never promises an outcome that the policy does not state.
+
+SHIPPING - DELIVERY TIMES
+Standard delivery takes 3 to 5 business days inside the home country and 7 to 12 business days abroad. Express delivery takes 1 to 2 business days and is available only inside the home country. Orders placed before 2 pm on a business day leave the warehouse the same day; later orders leave the next business day. Delivery times start when the parcel leaves the warehouse, not when the order is placed.
+
+SHIPPING - SHIPPING COSTS
+Standard delivery is free for orders above 50. Below that, it costs 4.90. Express delivery costs 9.90 for any order value. International delivery is priced by zone: 12 for neighbouring countries, 19 for the rest of the region and 29 for the rest of the world. The shipping cost is shown at checkout before payment and never changes afterwards.
+
+SHIPPING - COUNTRIES WE SHIP TO
+The store ships to the home country, the neighbouring countries and the rest of the region. It does not ship to post office boxes, military addresses or freight forwarders. Some items, such as batteries and perfumes, ship only inside the home country because carriers do not accept them on international routes.
+
+SHIPPING - TRACKING A PARCEL
+Every parcel has a tracking number that is emailed when it leaves the warehouse. Tracking updates appear within 12 hours of each carrier scan. A parcel that shows no update for 5 business days is treated as delayed, and the customer may ask the store to open an investigation with the carrier.
+
+SHIPPING - FAILED DELIVERY
+When nobody is home, the carrier leaves a note and tries once more on the next business day. After two failed attempts the parcel waits at the nearest carrier point for 7 days. Parcels not collected in that time return to the warehouse, and the order is refunded minus the original shipping cost.
+
+SHIPPING - CHANGING THE DELIVERY ADDRESS
+The delivery address can be changed in the order page until the parcel leaves the warehouse. After that, only the carrier can redirect the parcel, and redirections are possible only inside the same country. The store never changes an address based on a chat message alone; the customer must change it in the order page.
+
+PAYMENTS AND BILLING - ACCEPTED PAYMENT METHODS
+The store accepts major credit and debit cards, the two most common digital wallets, bank transfer for orders above 200, and store credit. Cash on delivery is not offered. Bank transfers must arrive within 5 business days, after which the order is cancelled automatically.
+
+PAYMENTS AND BILLING - WHEN THE CARD IS CHARGED
+Cards are authorised at checkout and charged when the parcel leaves the warehouse. If an order ships in several parcels, each parcel is charged separately when it ships. An authorisation that is never charged is released by the bank, usually within 7 days.
+
+PAYMENTS AND BILLING - DOUBLE CHARGES
+A double charge is usually an authorisation plus the real charge, and the authorisation disappears by itself. If two real charges appear for the same parcel, the customer sends the bank statement lines, and the billing team refunds the duplicate within 2 business days after confirming it.
+
+PAYMENTS AND BILLING - INVOICES
+An invoice is created for every parcel when it ships and is available in the order page as a PDF. Business customers can add a company name and tax number before payment; invoices cannot be changed after they are issued, but a corrected invoice can be requested within 30 days.
+
+PAYMENTS AND BILLING - DISCOUNT CODES
+Only one discount code applies per order. Codes cannot be added after payment, and they do not apply to gift cards or shipping costs. A code that expired before the order was paid is not honoured, even if it was valid when the item was added to the cart.
+
+PAYMENTS AND BILLING - PRICE CHANGES AFTER PURCHASE
+Prices can change at any time. The store does not refund the difference when a price drops after purchase, except during the 7 days after delivery for members of the loyalty program, who can ask once per order for the difference as store credit.
+
+ACCOUNTS AND PRIVACY - CREATING AN ACCOUNT
+An account needs an email address and a password of at least 12 characters. Orders can also be placed as a guest, but guest orders cannot be returned through the order page; guests start a return by contacting support with the order number and the email used at checkout.
+
+ACCOUNTS AND PRIVACY - RESETTING A PASSWORD
+A password reset link is sent to the account email and stays valid for 30 minutes. Support agents never ask for a password and never reset one by chat. After 5 failed sign-in attempts the account is locked for 15 minutes.
+
+ACCOUNTS AND PRIVACY - CHANGING THE ACCOUNT EMAIL
+The account email can be changed in the account settings after confirming the current password. A confirmation link goes to the new address, and a notice goes to the old one. Support cannot change the email on the customer's behalf.
+
+ACCOUNTS AND PRIVACY - PERSONAL DATA WE KEEP
+The store keeps the name, addresses, email, phone number and order history. Card numbers are never stored by the store; the payment provider keeps them. Order history is kept for 7 years for tax reasons; other personal data is deleted 2 years after the last order.
+
+ACCOUNTS AND PRIVACY - DELETING AN ACCOUNT
+A customer can delete the account from the account settings. Open orders and returns must be finished first. Deletion removes personal data within 30 days, except the data the store must keep for tax reasons, which is kept separately and used for nothing else.
+
+ACCOUNTS AND PRIVACY - DATA REQUESTS
+A customer can ask for a copy of their personal data or for a correction. Requests are made from the account settings or by email to the privacy team and are answered within 30 days. Support agents forward such requests and never send personal data by chat.
+
+LOYALTY PROGRAM - JOINING THE PROGRAM
+Any customer with an account can join the loyalty program for free from the account settings. Guest orders do not earn points. Points are earned only on orders placed after joining.
+
+LOYALTY PROGRAM - EARNING POINTS
+Members earn 1 point for every 1 spent on products. Shipping costs, gift cards and taxes do not earn points. Points appear 14 days after delivery, once the order can no longer be returned under the standard window.
+
+LOYALTY PROGRAM - USING POINTS
+100 points are worth 5 in store credit. Points can be converted in the account settings in steps of 100. Store credit from points cannot be turned into cash and expires 12 months after conversion.
+
+LOYALTY PROGRAM - POINTS AND RETURNS
+When an item is returned, the points it earned are removed. If the points were already converted, the value is deducted from the refund. Points spent as store credit on a returned order are given back as store credit.
+
+LOYALTY PROGRAM - MEMBER TIERS
+Members who spend more than 1,000 in a calendar year reach the gold tier for the next year. Gold members get free express delivery and early access to sales. The tier is reviewed every January.
+
+LOYALTY PROGRAM - LEAVING THE PROGRAM
+A member can leave at any time. Points that are not converted are lost when leaving. Store credit already converted stays on the account until it expires.
+
+ORDER CHANGES - CANCELLING AN ORDER
+An order can be cancelled in the order page until it leaves the warehouse. After that, it cannot be cancelled, but it can be returned when it arrives. Cancelled orders are refunded within 3 business days.
+
+ORDER CHANGES - CHANGING ITEMS IN AN ORDER
+Items cannot be added to an order after payment. A customer who wants more items places a new order. Items can be removed only by cancelling the whole order before it ships and placing a new one.
+
+ORDER CHANGES - SPLIT SHIPMENTS
+Orders with items from different warehouses ship in several parcels, each with its own tracking number. The order page shows which items are in which parcel. Delivery costs are charged once per order, not per parcel.
+
+ORDER CHANGES - BACKORDERS
+Items marked as backorder ship when they are back in stock, within the date shown on the product page. If the date passes, the customer is asked by email whether to wait or cancel, and the item is cancelled automatically if there is no answer within 7 days.
+
+ORDER CHANGES - PRE-ORDERS
+Pre-ordered items are charged when they ship, not when they are ordered. A pre-order can be cancelled at any time before it ships. If the release date moves by more than 30 days, the customer is asked to confirm the pre-order.
+
+ORDER CHANGES - GIFT WRAPPING
+Gift wrapping costs 3 per item and can be chosen at checkout. Wrapped items ship without a price on the packing slip. Gift wrapping cannot be added after payment.
