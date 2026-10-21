@@ -29,20 +29,26 @@ QUESTIONS = [
 ]
 
 
-def recall(chunks, k=3):
+def has_fact(chunks, fact):
+    for chunk in chunks:
+        if fact in chunk["text"]:
+            return True
+    return False
+
+
+def measure(name, chunks):
     index = BM25(chunks)
     misses = []
     for question, fact in QUESTIONS:
-        found = index.search(question, k)
-        if not any(fact in chunk["text"] for chunk in found):
+        best = index.search(question, 3)
+        if not has_fact(best, fact):
             misses.append(question)
-    return 1 - len(misses) / len(QUESTIONS), misses
-
-
-for name, chunks in [("fixed 400 chars", chunk_fixed(POLICY)),
-                     ("by section", chunk_by_section(POLICY))]:
-    score, misses = recall(chunks)
-    print(f"{name:16} {len(chunks):3} chunks   "
-          f"recall@3 = {score:.0%}")
+    hits = len(QUESTIONS) - len(misses)
+    print(name + ":", len(chunks), "chunks, recall@3 =",
+          hits, "of", len(QUESTIONS))
     for question in misses:
         print("    missed:", question)
+
+
+measure("fixed 400 chars", chunk_fixed(POLICY))
+measure("by section", chunk_by_section(POLICY))

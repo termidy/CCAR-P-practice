@@ -13,22 +13,32 @@ LOG = "runs.jsonl"
 original_create = Messages.create
 
 
+def agent_of(system):
+    for words, name in AGENTS.items():
+        if words in system:
+            return name
+    return "unknown"
+
+
 def traced_create(self, **request):
     start = time.time()
     response = original_create(self, **request)
+    ms = round((time.time() - start) * 1000)
     usage = response.usage
     price_in, price_out = PRICES[request["model"]]
+    tools = []
+    for block in response.content:
+        if block.type == "tool_use":
+            tools.append(block.name)
     record = {
         "trace": TRACE_ID,
-        "agent": next(name for key, name in AGENTS.items()
-                      if key in request["system"]),
-        "ms": round((time.time() - start) * 1000),
+        "agent": agent_of(request["system"]),
+        "ms": ms,
         "in": usage.input_tokens, "out": usage.output_tokens,
         "cost": (usage.input_tokens * price_in
                  + usage.output_tokens * price_out) / 1e6,
         "stop": response.stop_reason,
-        "tools": [b.name for b in response.content
-                  if b.type == "tool_use"],
+        "tools": tools,
     }
     with open(LOG, "a") as f:
         f.write(json.dumps(record) + "\n")
@@ -36,19 +46,30 @@ def traced_create(self, **request):
 
 
 Messages.create = traced_create
-import coordinator  # noqa: E402  - the agent code runs unchanged
+import coordinator  # runs the agents, unchanged
 
-rows = [json.loads(line) for line in open(LOG)]
-rows = [r for r in rows if r["trace"] == TRACE_ID]
-print(f"\ntrace {TRACE_ID}: {len(rows)} calls")
+rows = []
+for line in open(LOG):
+    row = json.loads(line)
+    if row["trace"] == TRACE_ID:
+        rows.append(row)
+print("trace", TRACE_ID, "has", len(rows), "calls")
 for r in rows:
     tools = " ".join(r["tools"])
     print(f"  {r['agent']:12} {r['ms']:6} ms {r['in']:6} in "
           f"{r['out']:5} out  {r['stop']:9} {tools}")
-times = sorted(r["ms"] for r in rows)
+
+times = []
+cost = 0
+for r in rows:
+    times.append(r["ms"])
+    cost += r["cost"]
+times.sort()
 p95 = times[round(0.95 * (len(times) - 1))]
-cost = sum(r["cost"] for r in rows)
-print(f"p50 {statistics.median(times):.0f} ms  p95 {p95} ms  "
-      f"cost ${cost:.4f}")
-slowest = max(rows, key=lambda r: r["ms"])
-print(f"slowest step: {slowest['agent']}, {slowest['ms']} ms")
+print("median", round(statistics.median(times)), "ms, p95", p95,
+      "ms, cost", round(cost, 4), "dollars")
+slowest = rows[0]
+for r in rows:
+    if r["ms"] > slowest["ms"]:
+        slowest = r
+print("slowest step:", slowest["agent"], slowest["ms"], "ms")

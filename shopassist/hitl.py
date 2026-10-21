@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 from dotenv import load_dotenv
 from anthropic import Anthropic
@@ -11,23 +12,25 @@ LIMIT = 100
 QUEUE = "review_queue.json"
 SYSTEM = ("You are ShopAssist. Use process_refund for refunds. "
           "Answer the customer in two sentences.")
-FIELDS = {"order_id": "string", "amount": "number",
-          "reason": "string"}
 TOOLS = [{
     "name": "process_refund",
     "description": "Refund an amount for an order.",
     "input_schema": {
-        "type": "object", "required": list(FIELDS),
-        "properties": {f: {"type": t}
-                       for f, t in FIELDS.items()}},
+        "type": "object",
+        "properties": {
+            "order_id": {"type": "string"},
+            "amount": {"type": "number"},
+            "reason": {"type": "string"},
+        },
+        "required": ["order_id", "amount", "reason"],
+    },
 }]
 
 
 def load_queue():
-    try:
-        return json.load(open(QUEUE))
-    except FileNotFoundError:
+    if not os.path.exists(QUEUE):
         return []
+    return json.load(open(QUEUE))
 
 
 def agent(text):
@@ -45,13 +48,14 @@ def agent(text):
         for block in response.content:
             if block.type == "tool_use":
                 out = process_refund(**block.input)
-                print(f"  process_refund {block.input} -> {out}")
+                print("  process_refund", block.input, "->", out)
                 results.append({"type": "tool_result",
                                 "tool_use_id": block.id,
                                 "content": json.dumps(out)})
         messages.append({"role": "user", "content": results})
-    return " ".join(b.text for b in response.content
-                    if b.type == "text")
+    for block in response.content:
+        if block.type == "text":
+            return block.text
 
 
 def process_refund(order_id, amount, reason):
@@ -67,18 +71,11 @@ def process_refund(order_id, amount, reason):
             "customerMessage": "A person will review it."}
 
 
-if len(sys.argv) == 1:
-    requests = ["Refund 60 for the jacket in ORD-12345678, "
-                "it was too small.",
-                "Refund 250 for the broken TV in ORD-87654321."]
-    for text in requests:
-        print("Customer:", text)
-        print("ShopAssist:", agent(text))
-
-
 def review(ticket, decision):
     queue = load_queue()
-    case = next(c for c in queue if c["ticket"] == ticket)
+    for c in queue:
+        if c["ticket"] == ticket:
+            case = c
     case["decision"] = decision
     if decision == "approved":
         case["refund_id"] = "REF-7790"  # code refunds, not Claude
@@ -89,9 +86,21 @@ def review(ticket, decision):
         messages=[{"role": "user", "content":
                    "Write the customer update for this reviewed "
                    f"refund: {json.dumps(case)}"}])
-    return " ".join(b.text for b in response.content
-                    if b.type == "text")
+    for block in response.content:
+        if block.type == "text":
+            return block.text
 
 
-if sys.argv[1:2] == ["review"]:
+if len(sys.argv) == 1:
+    requests = [
+        "Refund 60 for the jacket in ORD-12345678, "
+        "it was too small.",
+        "Refund 250 for the broken TV in ORD-87654321.",
+        "Refund 180 for the coat in ORD-24681357, "
+        "I changed my mind.",
+    ]
+    for text in requests:
+        print("Customer:", text)
+        print("ShopAssist:", agent(text))
+else:
     print("ShopAssist:", review(sys.argv[2], sys.argv[3]))

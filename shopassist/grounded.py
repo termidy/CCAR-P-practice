@@ -26,24 +26,28 @@ def as_search_result(chunk):
 
 
 def ask(question):
-    found = index.search(question)
-    results = [as_search_result(chunk) for chunk in found]
+    content = []
+    for chunk in index.search(question):
+        content.append(as_search_result(chunk))
+    content.append({"type": "text", "text": question})
     response = client.messages.create(
         model=MODEL,
         max_tokens=300,
         output_config={"effort": "low"},
         system=SYSTEM,
-        messages=[{"role": "user", "content": results + [
-            {"type": "text", "text": question}]}],
+        messages=[{"role": "user", "content": content}],
     )
-    answer, sources = "", set()
+    answer = ""
+    sources = []
     for block in response.content:
         if block.type == "text":
             answer += block.text
-            sources |= {c.source for c in block.citations or []}
+            if block.citations:
+                for citation in block.citations:
+                    sources.append(citation.source)
     print("Q:", question)
-    print("A:", answer.strip())
-    print("   cited:", ", ".join(sorted(sources)) or "nothing")
+    print("A:", answer)
+    print("   cited:", sources)
 
 
 ask("How long does a card refund take?")

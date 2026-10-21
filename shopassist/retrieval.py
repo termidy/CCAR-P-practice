@@ -36,9 +36,11 @@ class BM25:
 
 
 def chunk_fixed(text, size=400):
-    return [{"id": f"chars {i}-{i + size}",
-             "text": text[i:i + size]}
-            for i in range(0, len(text), size)]
+    chunks = []
+    for start in range(0, len(text), size):
+        chunks.append({"id": f"chars {start}-{start + size}",
+                       "text": text[start:start + size]})
+    return chunks
 
 
 def chunk_by_section(text):

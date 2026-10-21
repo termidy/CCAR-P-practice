@@ -8,23 +8,26 @@ client = Anthropic()
 MODEL = "claude-sonnet-5-5"
 
 message = (
-    "Hi, I am alex@example.com, phone +353 85 123 4567. "
-    "I paid with card 4111 1111 1111 1111 for order "
-    "ORD-12345678 and want to return the jacket."
+    "Hi, my email is alex@example.com and my phone is "
+    "+353 85 123 4567. I paid with card 4111 1111 1111 1111 "
+    "for order ORD-12345678 and want to return the jacket."
 )
 
 PATTERNS = {
-    "EMAIL": r"[\w.+-]+@[\w-]+\.[\w.]+",
-    "CARD": r"\b(?:\d[ -]?){12,15}\d\b",
-    "PHONE": r"\+?\d[\d -]{8,}\d",
+    "EMAIL": r"\S+@\S+",
+    "PHONE": r"\+[\d ]+\d",
+    "CARD": r"\d{4} \d{4} \d{4} \d{4}",
 }
 
 
 def redact(text):
     for name, pattern in PATTERNS.items():
-        text = re.sub(pattern, f"<{name}>", text)
+        text = re.sub(pattern, "<" + name + ">", text)
     return text
 
+
+safe = redact(message)
+print("sent to Claude:", safe)
 
 SYSTEM = (
     "You are ShopAssist, an online store's support assistant. "
@@ -32,9 +35,6 @@ SYSTEM = (
     "Personal data arrives as placeholders such as <EMAIL>; "
     "never ask the customer to send it. Answer in two sentences."
 )
-
-safe = redact(message)
-print("sent to Claude:", safe)
 
 response = client.messages.create(
     model=MODEL,

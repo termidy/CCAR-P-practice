@@ -35,7 +35,7 @@ In the order of the course.
 | A chat UI talks to your script | `app.py`, `static/index.html` | `uvicorn app:app --port 8000`, open http://127.0.0.1:8000/ |
 | System prompt rules vs code rules | `rules.py` (start: `starting-points/p04_rules.start.py`) | `python rules.py` - a prompt rule is a request, a code rule is a guarantee |
 | Evaluate a prompt change on a test set | `evaluate.py` | `python evaluate.py` - two system prompts, same cases, scored by code and by a model grader |
-| Chunking strategies, measured | `retrieval.py`, `chunking.py` | `python chunking.py` - fixed-size vs by-section chunks, recall@3 on twelve questions |
+| Chunking strategies, measured | `retrieval.py`, `chunking.py` (start: `starting-points/a01_retrieval.start.py`, `starting-points/a01_chunking.start.py`) | `python chunking.py` - fixed-size vs by-section chunks, recall@3 on twelve questions |
 | Grounded answers with citations | `grounded.py` | `python grounded.py` - retrieved sections go to Claude as `search_result` blocks; the answer cites its source |
 | Diagnose retrieval before blaming the model | `diagnose.py`, `policy_live.txt`, `index.json` | `python diagnose.py`, then `python diagnose.py rebuild` - a stale index gives a confident wrong answer |
 | Least privilege and authorization in tools | `privilege.py` | `python privilege.py` - six tools vs a role of three (token cost), identity from the session inside the tool |
@@ -45,16 +45,17 @@ In the order of the course.
 | Human-in-the-loop: a review queue | `hitl.py` | `python hitl.py`, then `cat review_queue.json`, then `python hitl.py review REV-1 approved` |
 | Your first tool call, end to end | `tool_call.py` | `python tool_call.py` - `tools=`, `stop_reason == "tool_use"`, run the function, send `tool_result` back |
 | Schema-valid output from Claude | `extract.py` | `python extract.py` - `output_config.format` with a JSON schema |
-| Validate, then retry with the error | `validate.py` (start: `starting-points/p08_validate.start.py`) | `python validate.py` - schema-valid is not business-valid; retry once with the exact error |
+| Validate, then retry with the error | `validate.py` (start: `starting-points/p08_validate.start.py`) | `python validate.py` - schema-valid is not business-valid; send the exact error back and retry, up to three attempts |
 | BUILD: ShopAssist extracts return requests | `build_extract.py`, `emails/` | `python build_extract.py` - five emails in, `return_requests.json` out |
 | Structured tool errors in code | `tool_errors.py` (start: `starting-points/p11_tool_errors.start.py`) | `python tool_errors.py` - tools return `isError`, `errorCategory`, `isRetryable`, `customerMessage`, `developerMessage` |
 | BUILD: backend tools and an MCP server | `mcp_server.py` | `claude mcp add shopassist -- python mcp_server.py`, then `claude -p "..." --allowedTools "mcp__shopassist__lookup_order,mcp__shopassist__start_return"` |
 | The agentic loop in code | `agent_loop.py` | `python agent_loop.py` - loop while `stop_reason == "tool_use"` |
+| An agent with the Claude Agent SDK and a hook | `agent_sdk.py` | `python agent_sdk.py` - `query()` with allowed tools and a `PreToolUse` hook that denies `rm` and `.env` access |
 | Coordinator and subagents in code | `coordinator.py` | `python coordinator.py` - a coordinator calls two specialised agents as tools |
 | BUILD: ShopAssist becomes an agentic system | `agent.py` (start: `starting-points/p13_agent.start.py`) | `python agent.py` - a gate before the loop, a hook before every tool, escalation as a tool |
 | Prompt caching: pay for the policy once | `caching.py`, `policy.txt` | `python caching.py` - `cache_control` on the policy block; usage shows cache write once, then cache reads |
-| Prompt injection through a tool result | `injection.py` (start: `starting-points/d29_injection.start.py`) | `python injection.py` - an order note demands a 500 refund; then `python -c "from injection import process_refund; print(process_refund('ORD-12345678', 500))"` shows the code gate |
-| PII and secrets: redact before you send | `redact.py` (start: `starting-points/d30_redact.start.py`) | `python redact.py` - emails, card and phone numbers become placeholders before the request; `git check-ignore -v .env` |
+| Prompt injection through a tool result | `injection.py` | `python injection.py` - an order note demands a 500 refund; then `python -c "from injection import process_refund; print(process_refund('ORD-12345678', 500))"` shows the code gate |
+| PII and secrets: redact before you send | `redact.py` | `python redact.py` - emails, card and phone numbers become placeholders before the request; `git check-ignore -v .env` |
 | Claude Code hooks: block a destructive command | `.claude/settings.json`, `.claude/hooks/guard.py` | `claude -p "Show the first line of .env with head, then delete review.json with rm. Report what happened." --allowedTools Bash` - both commands are blocked by the hook |
 | Stream the reply as it is written | `stream.py` (start: `starting-points/d07_stream.start.py`) | `python stream.py` - `messages.stream`, text pieces as they arrive, `get_final_message()` for stop_reason and usage |
 | Errors and retries: 401, 400 and timeouts | `errors.py` | `python errors.py` - a wrong key, a removed parameter through `extra_body`, a 50 ms timeout; `max_retries` and `with_options` |

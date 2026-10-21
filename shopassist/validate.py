@@ -1,5 +1,4 @@
 import json
-import re
 from dotenv import load_dotenv
 from anthropic import Anthropic
 
@@ -11,7 +10,10 @@ MODEL = "claude-sonnet-5-5"
 SCHEMA = {
     "type": "object",
     "properties": {
-        "order_id": {"type": ["string", "null"]},
+        "order_id": {
+            "type": ["string", "null"],
+            "description": "null if there is no order number",
+        },
         "item": {"type": "string"},
         "reason": {
             "type": "string",
@@ -22,43 +24,45 @@ SCHEMA = {
     "additionalProperties": False,
 }
 
-INSTRUCTION = (
-    "Extract the return request from this customer email. "
-    "Order IDs look like ORD-12345678. If the email gives no "
-    "order number, set order_id to null. Never invent one."
-)
+
+def ask_claude(messages):
+    response = client.messages.create(
+        model=MODEL,
+        max_tokens=300,
+        output_config={
+            "effort": "low",
+            "format": {"type": "json_schema", "schema": SCHEMA},
+        },
+        messages=messages,
+    )
+    for block in response.content:
+        if block.type == "text":
+            return block.text
 
 
-def validate(data):
-    order_id = data["order_id"]
-    if order_id is not None and not re.fullmatch(r"ORD-\d{8}", order_id):
-        return f"order_id {order_id!r} is not a valid order ID"
-    return None
+def is_valid(order_id):
+    if order_id is None:
+        return True
+    if order_id.startswith("ORD-") and len(order_id) == 12:
+        return True
+    return False
 
 
 def extract(email):
-    messages = [{"role": "user", "content": INSTRUCTION + "\n\n" + email}]
-    for attempt in range(3):
-        response = client.messages.create(
-            model=MODEL,
-            max_tokens=1000,
-            output_config={
-                "effort": "low",
-                "format": {"type": "json_schema", "schema": SCHEMA},
-            },
-            messages=messages,
-        )
-        for block in response.content:
-            if block.type == "text":
-                text = block.text
+    prompt = ("Extract the return request from this "
+              "customer email.\n\n" + email)
+    messages = [{"role": "user", "content": prompt}]
+    for attempt in [1, 2, 3]:
+        text = ask_claude(messages)
         data = json.loads(text)
-        error = validate(data)
-        if error is None:
+        order_id = data["order_id"]
+        if is_valid(order_id):
             return data
-        print("  attempt", attempt + 1, "rejected:", error)
+        error = order_id + " is not a valid order ID"
+        print("  attempt", attempt, "rejected:", error)
         messages.append({"role": "assistant", "content": text})
-        messages.append({"role": "user", "content":
-                         error + ". Fix it, or use null."})
+        feedback = error + ". Fix it, or use null."
+        messages.append({"role": "user", "content": feedback})
     return None
 
 

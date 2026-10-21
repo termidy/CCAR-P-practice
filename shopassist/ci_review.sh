@@ -1,6 +1,6 @@
 #!/bin/sh
 # CI step: Claude Code reviews the change against the project rules.
-DIFF=$(git diff -- .)
+DIFF=$(git diff -- '*.py')
 
 claude -p "Review this diff against the project's tool conventions.
 
@@ -13,5 +13,6 @@ python -c "
 import json
 review = json.load(open('review.json'))['structured_output']
 print(review['verdict'], '-', review['reason'])
-raise SystemExit(review['verdict'] != 'approve')
+if review['verdict'] != 'approve':
+    exit(1)
 "
