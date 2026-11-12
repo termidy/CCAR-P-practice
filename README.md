@@ -22,7 +22,7 @@ cp .env.example .env                                    # put your key in .env, 
 
 The scripts use the current API: `claude-sonnet-5-5`, `output_config={"effort": "low"}`, structured outputs through
 `output_config.format`, and the `mcp` package 2.x for the MCP server. If something returns a 400, check the model id and the SDK
-version first (`anthropic>=1.12`).
+version first (`anthropic>=2,<3`, API version 2026-10-21).
 
 ## The lessons
 
