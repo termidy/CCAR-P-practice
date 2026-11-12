@@ -42,7 +42,7 @@ In the order of the course.
 | Progressive discovery vs one big context | `discovery.py`, `handbook.txt` | `python discovery.py` - eight questions, three times each: the whole text in the system prompt vs an index of section titles and a `read_section` tool; input tokens, right answers and dollars per 1,000 questions on the 16-section policy and the 46-section handbook |
 | A model scorecard: Haiku vs Sonnet | `scorecard.py` | `python scorecard.py` - correctness, median latency and cost per thousand requests |
 | One trace across an agent run | `tracing.py` | `python tracing.py` - every call to Claude and to the order backend logged as a JSON line with a trace id; per conversation the seconds, the cost and the slowest step; p50 and p95 of every step |
-| Human-in-the-loop: a review queue | `hitl.py` | `python hitl.py`, then `cat review_queue.json`, then `python hitl.py review REV-1 approved` |
+| Human-in-the-loop: a review queue | `hitl.py` | `python hitl.py` - refunds above the automatic limit (500) go to `review_queue.json` instead of being paid; `cat review_queue.json`; then as the reviewer `python hitl.py REV-1 approved` and `python hitl.py REV-2 rejected`: the code carries out the decision, Claude writes the customer update |
 | Your first tool call, end to end | `tool_call.py` | `python tool_call.py` - `tools=`, `stop_reason == "tool_use"`, run the function, send `tool_result` back |
 | Schema-valid output from Claude | `extract.py` | `python extract.py` - `output_config.format` with a JSON schema |
 | Validate, then retry with the error | `validate.py` (start: `starting-points/p08_validate.start.py`) | `python validate.py` - schema-valid is not business-valid; send the exact error back and retry, up to three attempts |

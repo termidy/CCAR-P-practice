@@ -25,6 +25,11 @@ TOOLS = [{
         "required": ["order_id", "amount", "reason"],
     },
 }]
+REQUESTS = [
+    "Refund 120 for the jacket in ORD-12345678, it is too small.",
+    "Refund 640 for the broken laptop in ORD-23456789.",
+    "Refund 550 for the coat in ORD-24681357, I changed my mind.",
+]
 
 
 def load_queue():
@@ -48,7 +53,8 @@ def agent(text):
         for block in response.content:
             if block.type == "tool_use":
                 out = process_refund(**block.input)
-                print("  process_refund", block.input, "->", out)
+                print("  process_refund", block.input["amount"],
+                      "->", out)
                 results.append({"type": "tool_result",
                                 "tool_use_id": block.id,
                                 "content": json.dumps(out)})
@@ -58,9 +64,7 @@ def agent(text):
             return block.text
 
 
-def process_refund(order_id, amount, reason):
-    if amount <= LIMIT:
-        return {"status": "refunded", "refund_id": "REF-7781"}
+def send_to_review(order_id, amount, reason):
     queue = load_queue()
     ticket = f"REV-{len(queue) + 1}"
     queue.append({"ticket": ticket, "order_id": order_id,
@@ -71,17 +75,24 @@ def process_refund(order_id, amount, reason):
             "customerMessage": "A person will review it."}
 
 
+def process_refund(order_id, amount, reason):
+    if amount > LIMIT:
+        return send_to_review(order_id, amount, reason)
+    return {"status": "refunded",
+            "refund_id": "REF-" + order_id[-4:]}
+
+
 def review(ticket, decision):
     queue = load_queue()
-    for c in queue:
-        if c["ticket"] == ticket:
-            case = c
+    for item in queue:
+        if item["ticket"] == ticket:
+            case = item
     case["decision"] = decision
     if decision == "approved":
-        case["refund_id"] = "REF-7790"  # code refunds, not Claude
+        case["refund_id"] = "REF-" + case["order_id"][-4:]
     json.dump(queue, open(QUEUE, "w"), indent=2)
     response = client.messages.create(
-        model=MODEL, max_tokens=200,
+        model=MODEL, max_tokens=300,
         output_config={"effort": "low"}, system=SYSTEM,
         messages=[{"role": "user", "content":
                    "Write the customer update for this reviewed "
@@ -92,15 +103,8 @@ def review(ticket, decision):
 
 
 if len(sys.argv) == 1:
-    requests = [
-        "Refund 120 for the jacket in ORD-12345678, "
-        "it was too small.",
-        "Refund 640 for the broken laptop in ORD-23456789.",
-        "Refund 550 for the coat in ORD-24681357, "
-        "I changed my mind.",
-    ]
-    for text in requests:
+    for text in REQUESTS:
         print("Customer:", text)
         print("ShopAssist:", agent(text))
 else:
-    print("ShopAssist:", review(sys.argv[2], sys.argv[3]))
+    print("ShopAssist:", review(sys.argv[1], sys.argv[2]))
