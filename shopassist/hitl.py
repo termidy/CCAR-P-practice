@@ -8,7 +8,7 @@ load_dotenv()
 client = Anthropic()
 
 MODEL = "claude-sonnet-5-5"
-LIMIT = 100
+LIMIT = 500
 QUEUE = "review_queue.json"
 SYSTEM = ("You are ShopAssist. Use process_refund for refunds. "
           "Answer the customer in two sentences.")
@@ -93,10 +93,10 @@ def review(ticket, decision):
 
 if len(sys.argv) == 1:
     requests = [
-        "Refund 60 for the jacket in ORD-12345678, "
+        "Refund 120 for the jacket in ORD-12345678, "
         "it was too small.",
-        "Refund 250 for the broken TV in ORD-87654321.",
-        "Refund 180 for the coat in ORD-24681357, "
+        "Refund 640 for the broken laptop in ORD-23456789.",
+        "Refund 550 for the coat in ORD-24681357, "
         "I changed my mind.",
     ]
     for text in requests:
