@@ -3,14 +3,13 @@ import statistics
 import time
 import uuid
 from anthropic.resources.messages import Messages
+import coordinator
 
 # dollars per million tokens: input, output (pricing page)
 PRICES = {"claude-sonnet-5-5": (2.00, 10.00)}
 AGENTS = {"coordinator": "coordinator", "check orders": "order",
           "billing": "billing"}
-TRACE_ID = uuid.uuid4().hex[:8]
 LOG = "runs.jsonl"
-original_create = Messages.create
 
 
 def agent_of(system):
@@ -20,56 +19,79 @@ def agent_of(system):
     return "unknown"
 
 
+def log_step(step, ms, tokens_in, tokens_out, cost, status):
+    record = {"trace": TRACE_ID, "step": step, "ms": ms,
+              "in": tokens_in, "out": tokens_out,
+              "cost": cost, "status": status}
+    with open(LOG, "a") as f:
+        f.write(json.dumps(record) + "\n")
+
+
+original_create = Messages.create
+
+
 def traced_create(self, **request):
     start = time.time()
     response = original_create(self, **request)
     ms = round((time.time() - start) * 1000)
-    usage = response.usage
     price_in, price_out = PRICES[request["model"]]
-    tools = []
-    for block in response.content:
-        if block.type == "tool_use":
-            tools.append(block.name)
-    record = {
-        "trace": TRACE_ID,
-        "agent": agent_of(request["system"]),
-        "ms": ms,
-        "in": usage.input_tokens, "out": usage.output_tokens,
-        "cost": (usage.input_tokens * price_in
-                 + usage.output_tokens * price_out) / 1e6,
-        "stop": response.stop_reason,
-        "tools": tools,
-    }
-    with open(LOG, "a") as f:
-        f.write(json.dumps(record) + "\n")
+    usage = response.usage
+    cost = (usage.input_tokens * price_in
+            + usage.output_tokens * price_out) / 1e6
+    log_step(agent_of(request["system"]) + " model", ms,
+             usage.input_tokens, usage.output_tokens, cost,
+             response.stop_reason)
     return response
 
 
-Messages.create = traced_create
-import coordinator  # runs the agents, unchanged
+original_tool = coordinator.call_tool
 
-rows = []
-for line in open(LOG):
-    row = json.loads(line)
-    if row["trace"] == TRACE_ID:
-        rows.append(row)
-print("trace", TRACE_ID, "has", len(rows), "calls")
-for r in rows:
-    tools = " ".join(r["tools"])
-    print(f"  {r['agent']:12} {r['ms']:6} ms {r['in']:6} in "
-          f"{r['out']:5} out  {r['stop']:9} {tools}")
+
+def traced_tool(agent, name, arguments):
+    start = time.time()
+    output = original_tool(agent, name, arguments)
+    ms = round((time.time() - start) * 1000)
+    status = "ok"
+    if output.get("isError"):
+        status = "error"
+    log_step(agent + " " + name, ms, 0, 0, 0, status)
+    return output
+
+
+Messages.create = traced_create
+coordinator.call_tool = traced_tool
+
+
+def summary(trace_id):
+    rows = []
+    for line in open(LOG):
+        row = json.loads(line)
+        if row["trace"] == trace_id:
+            rows.append(row)
+    total = 0
+    cost = 0
+    slowest = rows[0]
+    for row in rows:
+        total += row["ms"]
+        cost += row["cost"]
+        if row["ms"] > slowest["ms"]:
+            slowest = row
+    share = round(slowest["ms"] / total * 100)
+    print(trace_id, "|", len(rows), "steps |",
+          round(total / 1000, 1), "s |", round(cost, 3),
+          "dollars | slowest:", slowest["step"],
+          slowest["ms"], "ms,", share, "% of the run")
+
+
+for run in [1, 2, 3]:
+    TRACE_ID = uuid.uuid4().hex[:8]
+    coordinator.handle(coordinator.MESSAGE)
+    summary(TRACE_ID)
 
 times = []
-cost = 0
-for r in rows:
-    times.append(r["ms"])
-    cost += r["cost"]
-times.sort()
-p95 = times[round(0.95 * (len(times) - 1))]
-print("median", round(statistics.median(times)), "ms, p95", p95,
-      "ms, cost", round(cost, 4), "dollars")
-slowest = rows[0]
-for r in rows:
-    if r["ms"] > slowest["ms"]:
-        slowest = r
-print("slowest step:", slowest["agent"], slowest["ms"], "ms")
+for line in open(LOG):
+    times.append(json.loads(line)["ms"])
+p50 = statistics.median(times)
+p95 = statistics.quantiles(times, n=20)[-1]
+print("every step in the log | p50", round(p50), "ms | p95",
+      round(p95), "ms")

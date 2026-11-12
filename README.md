@@ -41,7 +41,7 @@ In the order of the course.
 | Least privilege and authorization in tools | `privilege.py` | `python privilege.py` - six tools vs a role of three (token cost), identity from the session inside the tool |
 | Progressive discovery vs one big context | `discovery.py`, `handbook.txt` | `python discovery.py` - eight questions, three times each: the whole text in the system prompt vs an index of section titles and a `read_section` tool; input tokens, right answers and dollars per 1,000 questions on the 16-section policy and the 46-section handbook |
 | A model scorecard: Haiku vs Sonnet | `scorecard.py` | `python scorecard.py` - correctness, median latency and cost per thousand requests |
-| One trace across an agent run | `tracing.py` | `python tracing.py` - every call logged with a trace id; p50, p95, cost and the slowest step |
+| One trace across an agent run | `tracing.py` | `python tracing.py` - every call to Claude and to the order backend logged as a JSON line with a trace id; per conversation the seconds, the cost and the slowest step; p50 and p95 of every step |
 | Human-in-the-loop: a review queue | `hitl.py` | `python hitl.py`, then `cat review_queue.json`, then `python hitl.py review REV-1 approved` |
 | Your first tool call, end to end | `tool_call.py` | `python tool_call.py` - `tools=`, `stop_reason == "tool_use"`, run the function, send `tool_result` back |
 | Schema-valid output from Claude | `extract.py` | `python extract.py` - `output_config.format` with a JSON schema |
@@ -51,7 +51,7 @@ In the order of the course.
 | BUILD: backend tools and an MCP server | `mcp_server.py` | `claude mcp add shopassist -- python mcp_server.py`, then `claude -p "..." --allowedTools "mcp__shopassist__lookup_order,mcp__shopassist__start_return"` |
 | The agentic loop in code | `agent_loop.py` | `python agent_loop.py` - loop while `stop_reason == "tool_use"` |
 | An agent with the Claude Agent SDK and a hook | `agent_sdk.py` | `python agent_sdk.py` - `query()` with allowed tools and a `PreToolUse` hook that denies `rm` and `.env` access |
-| Coordinator and subagents in code | `coordinator.py` | `python coordinator.py` - a coordinator calls two specialised agents as tools |
+| Coordinator and subagents in code | `coordinator.py` | `python coordinator.py` - a coordinator calls two specialised agents as tools; the order backend is a stub whose first lookup in a conversation times out after 5 s |
 | BUILD: ShopAssist becomes an agentic system | `agent.py` (start: `starting-points/p13_agent.start.py`) | `python agent.py` - a gate before the loop, a hook before every tool, escalation as a tool |
 | Prompt caching: pay for the policy once | `caching.py`, `policy.txt` | `python caching.py` - `cache_control` on the policy block; usage shows cache write once, then cache reads |
 | Prompt injection through a tool result | `injection.py` | `python injection.py` - an order note demands a 500 refund; then `python -c "from injection import process_refund; print(process_refund('ORD-12345678', 500))"` shows the code gate |

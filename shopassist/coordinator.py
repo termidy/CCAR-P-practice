@@ -1,4 +1,5 @@
 import json
+import time
 from dotenv import load_dotenv
 from anthropic import Anthropic
 
@@ -7,6 +8,7 @@ client = Anthropic()
 
 MODEL = "claude-sonnet-5-5"
 FUNCTIONS = {}
+AGENTS = {}
 
 
 def make_tool(name, description, fields):
@@ -19,6 +21,11 @@ def make_tool(name, description, fields):
             "required": list(fields),
         },
     }
+
+
+def call_tool(agent, name, arguments):
+    # every call to the order backend goes through here
+    return FUNCTIONS[name](**arguments)
 
 
 def run_agent(name, system, tools, task):
@@ -35,8 +42,11 @@ def run_agent(name, system, tools, task):
         results = []
         for block in response.content:
             if block.type == "tool_use":
-                output = FUNCTIONS[block.name](**block.input)
-                print(f"  [{name}] {block.name}({block.input})")
+                if block.name in AGENTS:
+                    output = AGENTS[block.name](**block.input)
+                else:
+                    output = call_tool(name, block.name,
+                                       block.input)
                 results.append({"type": "tool_result",
                                 "tool_use_id": block.id,
                                 "content": json.dumps(output)})
@@ -50,9 +60,16 @@ ORDERS = {
     "ORD-87654321": {"item": "lamp", "status": "delivered",
                      "delivered_days_ago": 45, "price": 60},
 }
+WARM = set()   # stub: the orders the backend has in its cache
 
 
 def lookup_order(order_id):
+    # stub of a busy backend: a cold lookup times out after 5 s
+    if order_id not in WARM:
+        WARM.add(order_id)
+        time.sleep(5)
+        return {"isError": True, "retryable": True,
+                "developerMessage": "timeout after 5 s"}
     return ORDERS.get(order_id, {"error": "order not found"})
 
 
@@ -79,7 +96,7 @@ CHARGES = {
 
 
 def list_charges(order_id):
-    return CHARGES.get(order_id, [])
+    return {"charges": CHARGES.get(order_id, [])}
 
 
 def refund_charge(order_id, amount):
@@ -107,8 +124,8 @@ def billing_agent(order_id, facts):
         f"{order_id} and fix any duplicate.")
 
 
-FUNCTIONS["order_agent"] = order_agent
-FUNCTIONS["billing_agent"] = billing_agent
+AGENTS["order_agent"] = order_agent
+AGENTS["billing_agent"] = billing_agent
 COORDINATOR_TOOLS = [
     make_tool("order_agent", "Delegate: check an order.",
               {"order_id": {"type": "string"}}),
@@ -119,12 +136,20 @@ COORDINATOR_TOOLS = [
                "facts": {"type": "string"}}),
 ]
 
-answer = run_agent(
-    "coordinator",
-    "You are ShopAssist's coordinator. You have no data tools. "
-    "Delegate to the order agent and the billing agent, pass "
-    "each one what it needs, and answer the customer in two "
-    "sentences.",
-    COORDINATOR_TOOLS,
-    "I was charged twice for order ORD-87654321. Please fix it.")
-print("ShopAssist:", answer)
+
+def handle(message):
+    WARM.clear()   # stub: each conversation starts cold
+    return run_agent(
+        "coordinator",
+        "You are ShopAssist's coordinator. You have no data "
+        "tools. Delegate to the order agent and the billing "
+        "agent, pass each one what it needs, and answer the "
+        "customer in two sentences.",
+        COORDINATOR_TOOLS, message)
+
+
+MESSAGE = ("I was charged twice for order ORD-87654321. "
+           "Please fix it.")
+
+if __name__ == "__main__":
+    print("ShopAssist:", handle(MESSAGE))
