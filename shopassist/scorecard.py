@@ -18,7 +18,7 @@ SYSTEM = ("You are ShopAssist. Answer from the policy in one "
 CASES = [
     ("Can I return earrings?", ["no"]),
     ("How long does a card refund take?", ["10"]),
-    ("Who approves a refund of 250?", ["human"]),
+    ("Who approves a refund of 600?", ["human"]),
     ("How many days do I have to report a damaged item?", ["7"]),
     ("When is a lost return parcel treated as received?", ["14"]),
     ("Who reviews a warranty claim?", ["human"]),

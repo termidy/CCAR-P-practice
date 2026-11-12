@@ -9,7 +9,7 @@ SYSTEM = "You are ShopAssist. Answer in one sentence."
 
 QUESTIONS = [
     ("Can I return earrings?", "hygiene"),
-    ("Who approves a refund of 250?", "human"),
+    ("Who approves a refund of 600?", "human"),
     ("Do I pay customs on an international return?", "authority"),
 ]
 

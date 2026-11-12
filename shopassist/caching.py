@@ -32,4 +32,4 @@ def ask(question):
 
 ask("Can I return earrings?")
 ask("How long does a card refund take?")
-ask("Who approves a refund of 250?")
+ask("Who approves a refund of 600?")

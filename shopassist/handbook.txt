@@ -25,7 +25,7 @@ RETURNS - INTERNATIONAL RETURNS
 Customers outside the store's home country receive a return label at a reduced rate, and the cost of the label is deducted from the refund unless the return is caused by a store error. Customs duties paid on the original delivery are not refunded by the store, but the customer may claim them back from the customs authority with the return confirmation.
 
 RETURNS - REFUND LIMITS FOR AUTOMATIC PROCESSING
-Refunds up to 100 in value are processed automatically by the support assistant once eligibility is confirmed. Refunds above 100 require a human agent, who verifies the order, the payment and the return status before approving. The assistant never promises a refund amount above the automatic limit; it opens a ticket and tells the customer that a human will confirm.
+Refunds up to 500 in value are processed automatically by the support assistant once eligibility is confirmed. Refunds above 500 require a human agent, who verifies the order, the payment and the return status before approving. The assistant never promises a refund amount above the automatic limit; it opens a ticket and tells the customer that a human will confirm.
 
 RETURNS - CUSTOMER VERIFICATION
 Before any order detail or refund is discussed, the customer is verified by the email address on the order and the order number. The assistant never reads order details to a customer who cannot provide both, and it never sends order details to a third party, including a family member, without the account holder's consent.

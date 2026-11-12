@@ -36,7 +36,7 @@
   },
   {
    "id": "Refund Limits For Automatic Processing",
-   "text": "REFUND LIMITS FOR AUTOMATIC PROCESSING\nRefunds up to 100 in value are processed automatically by the support assistant once eligibility is confirmed. Refunds above 100 require a human agent, who verifies the order, the payment and the return status before approving. The assistant never promises a refund amount above the automatic limit; it opens a ticket and tells the customer that a human will confirm."
+   "text": "REFUND LIMITS FOR AUTOMATIC PROCESSING\nRefunds up to 500 in value are processed automatically by the support assistant once eligibility is confirmed. Refunds above 500 require a human agent, who verifies the order, the payment and the return status before approving. The assistant never promises a refund amount above the automatic limit; it opens a ticket and tells the customer that a human will confirm."
   },
   {
    "id": "Customer Verification",
