@@ -39,7 +39,7 @@ In the order of the course.
 | Grounded answers with citations | `grounded.py` | `python grounded.py` - retrieved sections go to Claude as `search_result` blocks; the answer cites its source |
 | Diagnose retrieval before blaming the model | `diagnose.py`, `policy_live.txt`, `index.json` | `python diagnose.py`, then `python diagnose.py rebuild` - a stale index gives a confident wrong answer |
 | Least privilege and authorization in tools | `privilege.py` | `python privilege.py` - six tools vs a role of three (token cost), identity from the session inside the tool |
-| Progressive discovery vs one big context | `discovery.py`, `handbook.txt` | `python discovery.py` - the whole text in the prompt vs a table of contents and a read tool |
+| Progressive discovery vs one big context | `discovery.py`, `handbook.txt` | `python discovery.py` - eight questions, three times each: the whole text in the system prompt vs an index of section titles and a `read_section` tool; input tokens, right answers and dollars per 1,000 questions on the 16-section policy and the 46-section handbook |
 | A model scorecard: Haiku vs Sonnet | `scorecard.py` | `python scorecard.py` - correctness, median latency and cost per thousand requests |
 | One trace across an agent run | `tracing.py` | `python tracing.py` - every call logged with a trace id; p50, p95, cost and the slowest step |
 | Human-in-the-loop: a review queue | `hitl.py` | `python hitl.py`, then `cat review_queue.json`, then `python hitl.py review REV-1 approved` |
