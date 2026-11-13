@@ -4,7 +4,11 @@
       {
         "matcher": "Bash",
         "hooks": [
-          {"type": "command", "command": "python3 .claude/hooks/guard.py"}
+          {
+            "type": "command",
+            "command": "python3 .claude/hooks/guard.py",
+            "onFailure": "block"
+          }
         ]
       }
     ]
