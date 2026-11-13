@@ -47,10 +47,6 @@ defend with numbers.
 | `lab_agent_trace` | messages.create wrapped once, one trace as a table with p50 and p95, cost per agent across runs | `tracing.py` |
 | `lab_review_queue` | Human approval inside the tool, the decision carried out by code and explained by Claude, a queue with an SLA | `hitl.py` |
 
-The other practice lessons are the same videos as in the CCAR-F and CCDV-F courses; their
-labs are in [CCAR-F-practice](https://github.com/termidy/CCAR-F-practice) and
-[CCDV-F-practice](https://github.com/termidy/CCDV-F-practice).
-
 ## The simulator follows the current API
 
 The labs use `claude-sonnet-5-5` (and `claude-haiku-5-5` in the scorecard) with
