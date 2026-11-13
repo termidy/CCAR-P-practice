@@ -61,6 +61,7 @@ In the order of the course.
 | Stream the reply as it is written | `stream.py` (start: `starting-points/d07_stream.start.py`) | `python stream.py` - `messages.stream`, text pieces as they arrive, `get_final_message()` for stop_reason and usage |
 | Errors and retries: 401, 400 and timeouts | `errors.py` | `python errors.py` - a wrong key, a removed parameter through `extra_body`, a 50 ms timeout; `max_retries` and `with_options` |
 | Claude Code hands-on: CLAUDE.md, rules and a skill | `CLAUDE.md`, `.claude/rules/tools.md`, `.claude/skills/order-check/SKILL.md` | `claude -p "Use the order-check skill for order ORD-87654321." --allowedTools "Skill,Bash(python *)"` |
+| Claude Code hands-on: settings scopes and permission rules | `claude-settings/.claude/settings.json`, `claude-settings/.mcp.json` | `cd claude-settings`, `cp ../.env.example .env`, put `{"model": "haiku"}` in `.claude/settings.local.json` (yours, ignored by git); `claude -p "Print the first line of .env. One sentence."` - the read is denied by the team rule; then `claude` (approve the returns-catalog server once) and `/permissions` |
 | Claude Code in CI: `-p` and JSON output | `ci_review.sh`, `review_schema.json` | break a tool convention in `mcp_server.py`, then `sh ci_review.sh` |
 
 The retrieval lessons use a small BM25 keyword index in pure Python so that they run without extra services; in production the ranking is usually embeddings or a hybrid of both.

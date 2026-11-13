@@ -1,4 +1,5 @@
 import json
+import os
 from mcp.server import MCPServer
 
 server = MCPServer("shopassist")
@@ -18,7 +19,9 @@ ORDERS = {
 
 
 def log(tool, order_id):
-    with open(".trace/trace.jsonl", "a") as f:
+    # the trace file next to this script, from whatever folder it runs
+    path = os.path.join(os.path.dirname(__file__), ".trace", "trace.jsonl")
+    with open(path, "a") as f:
         f.write(json.dumps({"event": "tool", "tool": tool,
                             "order_id": order_id}) + "\n")
 

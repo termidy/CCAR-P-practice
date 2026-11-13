@@ -2,10 +2,11 @@
 __pycache__/
 .venv/
 .vscode/
-.trace/trace.jsonl
-.trace/server.log
+**/.trace/trace.jsonl
+**/.trace/server.log
 review.json
 return_requests.json
 .ipynb_checkpoints/
 runs.jsonl
 review_queue.json
+**/.claude/settings.local.json
