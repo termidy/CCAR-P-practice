@@ -34,7 +34,7 @@ In the order of the course.
 | The conversation lives in your code | `conversation.py` | `python conversation.py` - the `messages` list is the only memory |
 | A chat UI talks to your script | `app.py`, `static/index.html` | `uvicorn app:app --port 8000`, open http://127.0.0.1:8000/ |
 | System prompt rules vs code rules | `rules.py` (start: `starting-points/p04_rules.start.py`) | `python rules.py` - a prompt rule is a request, a code rule is a guarantee |
-| Evaluate a prompt change on a test set | `evaluate.py` | `python evaluate.py` - two system prompts, same cases, scored by code and by a model grader |
+| Evaluate a prompt change on a test set | `evaluate.py` | `python evaluate.py` - two system prompts, same six cases, scored by a code grader (does the reply start with the expected YES or NO) |
 | Chunking strategies, measured | `retrieval.py`, `chunking.py` (start: `starting-points/a01_retrieval.start.py`, `starting-points/a01_chunking.start.py`) | `python chunking.py` - fixed-size vs by-section chunks, recall@3 on twelve questions |
 | Grounded answers with citations | `grounded.py` | `python grounded.py` - retrieved sections go to Claude as `search_result` blocks; the answer cites its source |
 | Diagnose retrieval before blaming the model | `diagnose.py`, `policy_live.txt`, `index.json` | `python diagnose.py`, then `python diagnose.py rebuild` - a stale index gives a confident wrong answer |
